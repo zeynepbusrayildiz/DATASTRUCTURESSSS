@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct StudentNode{
+    char name[50];
+    struct StudentNode *next;
+};
+
+struct StudentNode *createStudentNode(char *name){
+    struct StudentNode *newnode=(struct StudentNode*)malloc(sizeof(struct StudentNode));
+    if (newnode==NULL){
+        printf("Could not manage memory.\n");
+        exit(1);
+    }
+    strncpy(newnode->name, name, sizeof(newnode->name));
+    newnode->next=NULL;
+    return newnode;
+}
+
+int main(){
+    struct StudentNode *head=NULL;
+    struct StudentNode *current=NULL;
+    char findname[50];
+    
+    head=createStudentNode("Hande");
+    head->next=createStudentNode("Koray");
+    head->next->next=createStudentNode("Emir");
+    head->next->next->next=createStudentNode("Feriha");
+    
+    current=head;
+    while(current!=NULL){
+    	printf("%s\t",current->name);
+        current=current->next;
+	}
+    
+    printf("\nPlease enter the student name: ");
+    fgets(findname, sizeof(findname), stdin);
+    findname[strlen(findname)-1]='\0';
+
+   
+
+    current=head;
+
+    while (current!=NULL&&current->next!=NULL){
+        if(strcmp(current->name,findname)==0){
+            struct StudentNode *temp=current->next;
+            current->next=current->next->next;
+            free(temp);
+            printf("Deleted the next name.\n");
+            break;
+        }
+        current=current->next;
+    }
+
+    printf("New List:\n");
+    current=head;
+    while(current!=NULL){
+        printf("%s\n", current->name);
+        current=current->next;
+    }
+
+    while(head!=NULL){
+        struct StudentNode *temp=head;
+        head=head->next;
+        free(temp);
+    }
+
+    return 0;
+}
+

@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int collate(const void *x, const void *y){
+    return (*(int*)y-*(int*)x);
+}
+
+int main(){
+    srand(time(NULL));
+    int num[100], i;
+    for (i=0;i<100;i++){
+        num[i]=rand()%1000; 
+    }
+    qsort(num, 100, sizeof(int), collate);
+    for (i=0; i<100; i++){
+        printf("%d ",num[i]);
+    }
+    return 0;
+}
+
